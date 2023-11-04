@@ -1,5 +1,9 @@
 # AWSLambda-RDS-Postgres
-Connecting to RDS Postgres from AWS Lambda
+This repo is for connecting to RDS Postgres from AWS Lambda. The AWS tutorial for connecting Lambda only works for MySQL at the moment and not Postgres.
+
+## Usage Instructions
+Requires Python 3.9 and psycopg2 2.9.9
+The steps for configuring AWS services and deploying this as a Lambda function are available in this Medium article.
 
 ## Files Walkthrough
 ##### lambda_function.py
@@ -21,5 +25,4 @@ This contains the psycopg2 directory + a simplified lambda_function.py that does
 ##### AWSLambda-RDS-Postgres.zip
 This contains the files in this repo as-is. Follow the instructions given for using this as the Lamdba source zip.
 
-## Usage Instructions
-The steps for configuring AWS services and deploying this as a Lambda function are available in this Medium article.
+
