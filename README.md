@@ -1,16 +1,25 @@
 # AWSLambda-RDS-Postgres
 Connecting to RDS Postgres from AWS Lambda
 
-## Build
-To build the zip file for uploading to AWS Lambda
-```
-Make any necessary changes in the python script.
-Zip up the files in this directory.
-Upload to AWS Lambda.
-```
+## Files Walkthrough
+##### lambda_function.py
+The core functionality for connecting to RDS Postgres. It retrieves the database credentials from AWS Secrets Manager, connects to the DB and returns the results from a table as JSON. The method ```lambda_handler()``` will be invoked by AWS Lambda when a relevant event is triggered. 
+Note: AWS Lambda executes ```lambda_function.lambda_handler()``` by default. If you want to use a different filename or function name, update the Lambda Runtime Configuration on the AWS console.
 
-To update the psycopg to latest, you can check what is available at https://github.com/jkehler/awslambda-psycopg2/tree/master. 
+##### psycopg2
+psycopg2 is the most popular PostgreSQL database adapter for Python. This is included here in this repo because fetching it automatically using ```pip install psycopg2-binary``` command results in the following Lambda execution error "Unable to import module 'rds_connector': No module named 'psycopg2._psycopg'". 
 
-Note: Automatically fetching the library using the ```pip install psycopg2-binary -t . ``` command results in the following Lambda execution error ```Unable to import module 'rds_connector': No module named 'psycopg2._psycopg'```. You need a version of psycopg2 with the libpq.so statically linked. This version of the psycopg2 is pre-built and available in the above GitHub.
+You need a version of psycopg2 with libpq.so statically linked for using it on AWS. This pre-built version of psycopg2 for Python 3.9 was obtained from https://github.com/jkehler/awslambda-psycopg2. If you need this for later versions of Python, you can also check https://pypi.org/project/aws-psycopg2/
 
-https://github.com/NajiAboo/aws-lambda-python/tree/main
+##### AWSLambda-RDS-Postgres-Basic.zip
+This contains the psycopg2 directory + a simplified lambda_function.py that does not require setting up AWS Secrets Manager. To use this:
+- Create a Lambda Function by choosing the 'From Scratch' option.
+- Upload the zip file.
+- Edit the database host, username, password and region specified in the lambda_function.py
+- Deploy and test.
+
+##### AWSLambda-RDS-Postgres.zip
+This contains the files in this repo as-is. Follow the instructions given for using this as the Lamdba source zip.
+
+## Usage Instructions
+The steps for configuring AWS services and deploying this as a Lambda function are available in this Medium article.
